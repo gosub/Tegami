@@ -1,0 +1,5 @@
+padella.hs
+*.hi
+*.o
+*.ppm
+bins/*
