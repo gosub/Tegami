@@ -37,16 +37,12 @@ poly n = foldr1 (liftA2 (&&)) planes
                semi = top . trans (0, -apothem)
                apothem = cos (pi / fromIntegral n)
 
-{-
-tri p1 p2 p3 p = s > 0 && t > 0 && s + t < 2 * a * (signum a)
-                 where (x, y) = p
-                       (x1, y1) = p1
-                       (x2, y2) = p2
-                       (x3, y3) = p3
-                       a = ((-y2) * x3 + y1 * ((-x2) + x3) + x1 * (y2 - y3) + x2 * y3) / 2.0;
-                       s = (y1 * x3 - x1 * y3 + (y3 - y1) * x + (x1 - x3) * y) * (signum a);
-                        t = (x1 * y2 - y1 * x2 + (y1 - y2) * x + (x2 - x1) * y) * (signum a);
--}
+
+tri (x1,y1) (x2,y2) (x3,y3) (x,y) = s > 0 && t > 0 && s + t < 2 * a * (signum a)
+  where a = ((-y2) * x3 + y1 * ((-x2) + x3) + x1 * (y2 - y3) + x2 * y3) / 2.0
+        s = (y1 * x3 - x1 * y3 + (y3 - y1) * x + (x1 - x3) * y) * (signum a)
+        t = (x1 * y2 - y1 * x2 + (y1 - y2) * x + (x2 - x1) * y) * (signum a)
+
 
 girandola :: Integral a => a -> BinaryMask
 girandola n p = r <= limit
