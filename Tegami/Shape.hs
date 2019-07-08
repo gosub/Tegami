@@ -57,3 +57,8 @@ flower n p = r < maxdist
         progress = (theta `mod'` pifrac) / pifrac
         maxdist = if dx then 0.5 + 0.5 * progress else 1.0 - 0.5 * progress
 
+
+blob threshold ps p = force > threshold
+  where force = sum (map weight distances)
+        weight d = 1/d
+        distances = [dist p x | x <- ps]
