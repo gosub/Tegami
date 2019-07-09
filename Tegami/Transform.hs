@@ -30,6 +30,9 @@ wave freq amp (x, y) = (x, y - amp * sin(x * freq))
 ringer :: Magnitude -> Transform
 ringer modulo = polar2cart . ((`mod'` modulo) *** id) . cart2polar
 
+slicer :: Magnitude -> Transform
+slicer modulo = polar2cart . (id *** (`mod'` modulo))  . cart2polar
+
 twirlBy :: Magnitude -> Transform
 twirlBy amount p = polar2cart(r, theta2)
   where theta2 = theta + r * amount
