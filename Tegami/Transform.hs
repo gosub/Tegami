@@ -41,3 +41,7 @@ twirlBy amount p = polar2cart(r, theta2)
 twirl :: Transform
 twirl = twirlBy 1
 
+iso :: Magnitude -> Magnitude -> Transform
+iso tileW tileH (x, y) = (tx, ty)
+  where tx = (x / tileW) + (y / tileH)
+        ty = (y / tileH) - (x / tileW)
