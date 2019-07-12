@@ -45,3 +45,6 @@ iso :: Magnitude -> Magnitude -> Transform
 iso tileW tileH (x, y) = (tx, ty)
   where tx = (x / tileW) + (y / tileH)
         ty = (y / tileH) - (x / tileW)
+
+mirror :: Transform
+mirror = abs *** id
