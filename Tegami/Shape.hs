@@ -3,6 +3,7 @@ module Tegami.Shape where
 import Tegami.Core
 import Tegami.Transform (scale, rot, trans)
 import Tegami.Shift (shiftRot)
+import Tegami.Hex (cart2hex, hexround)
 
 import Control.Applicative (liftA2)
 import Data.Fixed (mod')
@@ -62,3 +63,15 @@ blob threshold ps p = force > threshold
   where force = sum (map weight distances)
         weight d = 1/d
         distances = [dist p x | x <- ps]
+
+
+hexrings p = odd $ maximum [abs hx, abs hy, abs hz]
+  where (hx, hy, hz) = hexround $ cart2hex p
+
+
+honeycomb threshold p = maximum [dx+dy, dy+dz, dx+dz] > threshold
+  where (cx, cy, cz) = cart2hex p
+        (hx, hy, hz) = hexround (cx, cy, cz)
+        dx = abs (cx - fromIntegral hx)
+        dy = abs (cy - fromIntegral hy)
+        dz = abs (cz - fromIntegral hz)
