@@ -51,3 +51,7 @@ mirror = abs *** id
 
 transpose :: Transform
 transpose (x, y) = (y, x)
+
+spiral :: Transform
+spiral = trns . cart2polar
+  where trns (r, a) = (mod' (r + a / twopi) 1, a)
