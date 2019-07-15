@@ -48,3 +48,6 @@ iso tileW tileH (x, y) = (tx, ty)
 
 mirror :: Transform
 mirror = abs *** id
+
+transpose :: Transform
+transpose (x, y) = (y, x)
