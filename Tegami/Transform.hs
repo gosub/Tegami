@@ -61,3 +61,6 @@ both f (x, y) = (f x, f y)
 
 tile :: Transform
 tile = both ((`mod'` 1) . abs)
+
+tile' :: Transform
+tile' = trans (1,1) . zoom 0.5 . tile . zoom 2 . trans ((-1),(-1))
