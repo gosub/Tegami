@@ -58,3 +58,6 @@ spiral = trns . cart2polar
 
 both :: (a -> b) -> (a, a) -> (b, b)
 both f (x, y) = (f x, f y)
+
+tile :: Transform
+tile = both ((`mod'` 1) . abs)
