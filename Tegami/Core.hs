@@ -52,3 +52,6 @@ cart2polar (x, y) = (dist0 (x,y), atan2' y x)
 xor :: Eq a => a -> a -> Bool
 xor = (/=)
 
+withMask m a b p = if' (m p) (a p) (b p)
+  where if' True x _ = x
+        if' False _ y = y
