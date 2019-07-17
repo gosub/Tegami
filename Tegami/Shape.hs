@@ -75,3 +75,6 @@ honeycomb threshold p = maximum [dx+dy, dy+dz, dx+dz] > threshold
         dx = abs (cx - fromIntegral hx)
         dy = abs (cy - fromIntegral hy)
         dz = abs (cz - fromIntegral hz)
+
+rings :: BinaryMask
+rings = even . floor . dist0
