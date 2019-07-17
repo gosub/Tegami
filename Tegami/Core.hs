@@ -1,3 +1,5 @@
+{-# LANGUAGE TypeSynonymInstances, FlexibleInstances #-}
+
 module Tegami.Core where
 
 
@@ -16,6 +18,15 @@ class Raster a where
 instance Raster Bool where
   toIntRGB True = (255, 255, 255)
   toIntRGB False = (0, 0, 0)
+
+instance Raster RGB where
+  toIntRGB (r, g, b) = (round (cr * 255),
+                        round (cg * 255),
+                        round (cb * 255))
+    where cr = clamp 0 1.0 r
+          cg = clamp 0 1.0 g
+          cb = clamp 0 1.0 b
+          clamp mn mx = max mn . min mx
 
 
 origin :: Point
