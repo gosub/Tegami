@@ -49,6 +49,9 @@ polar2cart (r, theta) = (r*cos(theta), r*sin(theta))
 
 cart2polar (x, y) = (dist0 (x,y), atan2' y x)
 
+withPolar :: Transform -> Transform
+withPolar f = polar2cart . f . cart2polar
+
 xor :: Eq a => a -> a -> Bool
 xor = (/=)
 
