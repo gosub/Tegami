@@ -64,3 +64,7 @@ tile = both ((`mod'` 1) . abs)
 
 tile' :: Transform
 tile' = trans (1,1) . zoom 0.5 . tile . zoom 2 . trans ((-1),(-1))
+
+radInvert :: Transform
+radInvert = withPolar f
+  where f (r, a) = (1/r, a)
