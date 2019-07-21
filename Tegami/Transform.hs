@@ -52,9 +52,12 @@ mirror = abs *** id
 transpose :: Transform
 transpose (x, y) = (y, x)
 
+spiralBy :: Magnitude -> Magnitude -> Transform
+spiralBy arms tight = trns . cart2polar
+  where trns (r, a) = (mod' (r*tight + a / twopi*arms) 1, a)
+
 spiral :: Transform
-spiral = trns . cart2polar
-  where trns (r, a) = (mod' (r + a / twopi) 1, a)
+spiral = spiralBy 1 1
 
 both :: (a -> b) -> (a, a) -> (b, b)
 both f (x, y) = (f x, f y)
