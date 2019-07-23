@@ -8,8 +8,11 @@ import Tegami.Hex (cart2hex, hexround)
 import Control.Applicative (liftA2)
 import Data.Fixed (mod')
 
+disc' :: Magnitude -> BinaryMask
+disc' r p = (dist0 p) <= r
+
 disc :: BinaryMask
-disc p = (dist0 p) <= 1.0
+disc = disc' 1.0
 
 square :: BinaryMask
 square (x,y) = x <= 1.0 && x >= -1.0 && y >= -1.0 && y <= 1.0 
