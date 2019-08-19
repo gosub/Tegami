@@ -14,6 +14,9 @@ disc' r p = (dist0 p) <= r
 disc :: BinaryMask
 disc = disc' 1.0
 
+annulus :: Magnitude -> BinaryMask
+annulus inner = xor <$> disc <*> (disc' inner)
+
 square :: BinaryMask
 square (x,y) = x <= 1.0 && x >= -1.0 && y >= -1.0 && y <= 1.0 
 
