@@ -7,16 +7,17 @@ module Tegami.Render (
 import Tegami.Core
 
 import System.Environment (getArgs, getProgName)
-import Codec.Picture
+import Codec.Picture hiding (Image)
+import qualified Codec.Picture as JP
 import Control.Parallel.Strategies (parListChunk, rdeepseq, using)
 import qualified Data.Vector.Storable as VS
 import Data.Word (Word8)
 
 
 safenth :: [a] -> Int -> a -> a
-safenth [] _ x = x
-safenth l  0 _ = head l
-safenth l  n x = safenth (tail l) (n - 1) x
+safenth []     _ x = x
+safenth (a:_)  0 _ = a
+safenth (_:as) n x = safenth as (n - 1) x
 
 
 renderRow :: Raster a => Int -> Image a -> Int -> Int -> Double -> Double -> VS.Vector Word8
@@ -43,10 +44,10 @@ writeImage aa path image w h = writePng path juicyImg
   where
     stepX    = 4.0 / fromIntegral w
     stepY    = 4.0 / fromIntegral h
-    rows     = map (renderRow aa image w) [0 .. h-1]
+    rows     = map (\y -> renderRow aa image w y stepX stepY) [0 .. h-1]
                `using` parListChunk 8 rdeepseq
     pixels   = VS.concat rows
-    juicyImg = Image w h pixels :: Image PixelRGB8
+    juicyImg = JP.Image w h pixels :: JP.Image PixelRGB8
 
 
 autoImage :: Raster a => Image a -> IO ()
