@@ -1,6 +1,6 @@
-SRCS=$(wildcard images/image_*.hs)
+SRCS=$(wildcard src/image_*.hs)
 
-PNGS=$(subst images,pngs,$(SRCS:.hs=.png))
+PNGS=$(subst src,pngs,$(SRCS:.hs=.png))
 
 all: $(PNGS)
 
@@ -18,7 +18,7 @@ GHC=ghc
 endif
 
 
-pngs/%.png: images/%.hs
+pngs/%.png: src/%.hs
 	$(GHC) -O3 -threaded -o bins/$(notdir $(basename $<)) $<
 	./bins/$(notdir $(basename $<)) $(RESO) $(RESO) $(AA) +RTS -N
 	mv $(notdir $(basename $<)).png $@
@@ -28,8 +28,8 @@ clean: clean_artifacts
 	rm pngs/*.png
 
 clean_artifacts:
-	rm images/*.hi
-	rm images/*.o
+	rm src/*.hi
+	rm src/*.o
 	rm Tegami/*.hi
 	rm Tegami/*.o
 
