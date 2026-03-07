@@ -4,3 +4,4 @@
 _build/
 bins/*
 scratch/
+pngs/*.png
