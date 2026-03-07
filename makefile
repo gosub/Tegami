@@ -25,8 +25,7 @@ $(TEGAMI_STAMP): $(TEGAMI_SRCS) | $(BUILDDIR)
 
 pngs/%.png: src/%.hs $(TEGAMI_STAMP) | bins
 	$(GHC) $(GHC_FLAGS) -o bins/$(notdir $(basename $<)) $<
-	./bins/$(notdir $(basename $<)) $(RESO) $(RESO) $(AA) +RTS -N
-	mv $(notdir $(basename $<)).png $@
+	./bins/$(notdir $(basename $<)) $(RESO) $(RESO) $(AA) $@ +RTS -N
 
 $(BUILDDIR) bins:
 	mkdir -p $@

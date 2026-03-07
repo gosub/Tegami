@@ -54,7 +54,8 @@ autoImage :: Raster a => Image a -> IO ()
 autoImage image = do
     args <- getArgs
     name <- getProgName
-    let w  = safenth (map read args) 0 800
-        h  = safenth (map read args) 1 800
-        aa = safenth (map read args) 2 1
-    writeImage aa (name ++ ".png") image w h
+    let w    = safenth (map read args) 0 800
+        h    = safenth (map read args) 1 800
+        aa   = safenth (map read args) 2 1
+        path = safenth args 3 (name ++ ".png")
+    writeImage aa path image w h
