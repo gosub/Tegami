@@ -1,5 +1,6 @@
-padella.hs
 *.hi
 *.o
 *.ppm
+_build/
 bins/*
+scratch/
