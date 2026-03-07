@@ -7,15 +7,9 @@ all: $(PNGS)
 RESO?=800
 AA?=1
 
-# Set NIX=1 to compile via `nix develop --command ghc`.
-# Leave unset (or NIX=0) to use whatever ghc is on PATH.
-NIX?=0
-
-ifeq ($(NIX),1)
-GHC=nix --extra-experimental-features 'nix-command flakes' develop --command ghc
-else
-GHC=ghc
-endif
+# GHC is expected on PATH.
+# With the Nix dev shell, run:  nix develop --command make [target]
+GHC = ghc
 
 BUILDDIR = _build
 GHC_FLAGS = -O3 -threaded -outputdir $(BUILDDIR)
