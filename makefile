@@ -20,8 +20,10 @@ endif
 BUILDDIR = _build
 GHC_FLAGS = -O3 -threaded -outputdir $(BUILDDIR)
 
+TEGAMI_SRCS = $(wildcard Tegami/*.hs)
 
-pngs/%.png: src/%.hs | $(BUILDDIR) bins
+
+pngs/%.png: src/%.hs $(TEGAMI_SRCS) | $(BUILDDIR) bins
 	$(GHC) $(GHC_FLAGS) -o bins/$(notdir $(basename $<)) $<
 	./bins/$(notdir $(basename $<)) $(RESO) $(RESO) $(AA) +RTS -N
 	mv $(notdir $(basename $<)).png $@
