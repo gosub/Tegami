@@ -17,19 +17,20 @@ else
 GHC=ghc
 endif
 
+BUILDDIR = _build
+GHC_FLAGS = -O3 -threaded -outputdir $(BUILDDIR)
 
-pngs/%.png: src/%.hs
-	$(GHC) -O3 -threaded -o bins/$(notdir $(basename $<)) $<
+
+pngs/%.png: src/%.hs | $(BUILDDIR) bins
+	$(GHC) $(GHC_FLAGS) -o bins/$(notdir $(basename $<)) $<
 	./bins/$(notdir $(basename $<)) $(RESO) $(RESO) $(AA) +RTS -N
 	mv $(notdir $(basename $<)).png $@
 
-clean: clean_artifacts
-	rm bins/*
-	rm pngs/*.png
+$(BUILDDIR) bins:
+	mkdir -p $@
 
-clean_artifacts:
-	rm src/*.hi
-	rm src/*.o
-	rm Tegami/*.hi
-	rm Tegami/*.o
+clean:
+	rm -rf $(BUILDDIR)
+	rm -f bins/*
+	rm -f pngs/*.png
 
