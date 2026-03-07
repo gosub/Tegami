@@ -1,3 +1,4 @@
+{-# LANGUAGE GHC2021 #-}
 module Tegami.Shape where
 
 import Tegami.Core
@@ -32,6 +33,7 @@ stripes (_, y) = odd $ ceiling y
 top :: BinaryMask
 top (_, y) = y >= 0
 
+cross :: BinaryMask
 cross = shiftRot (liftA2 (||)) (pi/2) $ square . scale (1/3) 1
 
 rays :: Integral a => a -> BinaryMask
@@ -71,10 +73,12 @@ blob threshold ps p = force > threshold
         distances = [dist p x | x <- ps]
 
 
+hexrings :: BinaryMask
 hexrings p = odd $ maximum [abs hx, abs hy, abs hz]
   where (hx, hy, hz) = hexround $ cart2hex p
 
 
+honeycomb :: Magnitude -> BinaryMask
 honeycomb threshold p = maximum [dx+dy, dy+dz, dx+dz] > threshold
   where (cx, cy, cz) = cart2hex p
         (hx, hy, hz) = hexround (cx, cy, cz)

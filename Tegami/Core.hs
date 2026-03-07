@@ -1,6 +1,8 @@
-{-# LANGUAGE TypeSynonymInstances, FlexibleInstances #-}
+{-# LANGUAGE GHC2021 #-}
 
 module Tegami.Core where
+
+import Data.Bool (bool)
 
 
 type Point = (Double, Double)
@@ -32,6 +34,7 @@ instance Raster RGB where
 origin :: Point
 origin = (0, 0)
 
+twopi :: Double
 twopi = pi * 2.0
 
 dist :: Point -> Point -> Magnitude
@@ -55,6 +58,4 @@ withPolar f = polar2cart . f . cart2polar
 xor :: Eq a => a -> a -> Bool
 xor = (/=)
 
-withMask m a b p = if' (m p) (a p) (b p)
-  where if' True x _ = x
-        if' False _ y = y
+withMask m a b p = bool (b p) (a p) (m p)

@@ -1,3 +1,4 @@
+{-# LANGUAGE GHC2021 #-}
 module Tegami.Hex where
 
 import Tegami.Core

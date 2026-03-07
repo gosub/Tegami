@@ -1,3 +1,4 @@
+{-# LANGUAGE GHC2021 #-}
 module Tegami.Transform where
 
 import Tegami.Core
@@ -25,6 +26,7 @@ ccw = rot (pi/2)
 zoom :: Magnitude -> Transform
 zoom z = scale z z
 
+wave :: Magnitude -> Magnitude -> Transform
 wave freq amp (x, y) = (x, y - amp * sin(x * freq))
 
 ringer :: Magnitude -> Transform
@@ -33,7 +35,7 @@ ringer modulo = polar2cart . ((`mod'` modulo) *** id) . cart2polar
 slicer :: Magnitude -> Transform
 slicer modulo = polar2cart . (id *** (`mod'` modulo))  . cart2polar
 
-twirlBy :: Magnitude -> Transform
+twirlBy :: Double -> Transform
 twirlBy amount p = polar2cart(r, theta2)
   where theta2 = theta + r * amount
         (r, theta) = cart2polar p
@@ -52,7 +54,7 @@ mirror = abs *** id
 transpose :: Transform
 transpose (x, y) = (y, x)
 
-spiralBy :: Magnitude -> Magnitude -> Transform
+spiralBy :: Double -> Double -> Transform
 spiralBy arms tight = trns . cart2polar
   where trns (r, a) = (mod' (r*tight + a / twopi*arms) 1, a)
 

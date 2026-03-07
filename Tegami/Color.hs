@@ -1,3 +1,4 @@
+{-# LANGUAGE GHC2021 #-}
 module Tegami.Color where
 
 import Tegami.Core
