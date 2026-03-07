@@ -2,7 +2,7 @@
 
 a naïve functional image generation library
 
-## Features 
+## Features
 
 - written in Haskell
 - pure definition of images
@@ -15,10 +15,10 @@ a naïve functional image generation library
 
 ## Examples
 
-![image_003](pngs/image_003.png)
+![003_asterisk_ringer](pngs/003_asterisk_ringer.png)
 
-![image_003](pngs/image_004.png)
+![004_tile_rot_squares](pngs/004_tile_rot_squares.png)
 
-![image_003](pngs/image_006.png)
+![006_rays_twirl](pngs/006_rays_twirl.png)
 
-![image_003](pngs/image_009.png)
+![009_checkers_disc](pngs/009_checkers_disc.png)

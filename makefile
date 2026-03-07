@@ -1,4 +1,4 @@
-SRCS=$(wildcard src/image_*.hs)
+SRCS=$(wildcard src/[0-9][0-9][0-9]_*.hs)
 
 PNGS=$(subst src,pngs,$(SRCS:.hs=.png))
 
