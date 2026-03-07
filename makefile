@@ -5,7 +5,7 @@ PNGS=$(subst src,pngs,$(SRCS:.hs=.png))
 all: $(PNGS)
 
 RESO?=800
-AA?=1
+AA?=2
 
 # GHC is expected on PATH.
 # With the Nix dev shell, run:  nix develop --command make [target]
