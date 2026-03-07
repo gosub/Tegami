@@ -44,6 +44,9 @@ dist a b = sqrt ((x2-x1)**2 + (y2-y1)**2) where
 
 dist0 p = dist origin p
 
+dot :: Point -> Point -> Double
+dot (x1,y1) (x2,y2) = x1*x2 + y1*y2
+
 atan2' y x | alpha >= 0 = alpha
            | otherwise = alpha + twopi
            where alpha = atan2 y x
