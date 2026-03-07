@@ -1,4 +1,4 @@
-import Tegami.Render (autoPPM)
+import Tegami.Render (autoImage)
 import Tegami.Shape (tri)
 import Tegami.Transform (rot)
 
@@ -9,4 +9,4 @@ image_013 = foldr1 (liftA2 (||)) tris
         t = tri (0, 1.2) ((-0.05), 0.2) (0.05, 0.2)
         n = 7
 
-main = autoPPM $ image_013
+main = autoImage $ image_013

@@ -1,4 +1,4 @@
-import Tegami.Render (autoPPM)
+import Tegami.Render (autoImage)
 import Tegami.Shape (disc, square, poly, girandola, flower)
 import Tegami.Transform (zoom)
 import Tegami.Composition (tile)
@@ -13,4 +13,4 @@ image_008 = tile expo . zoom 0.3
         polys = [poly n | n <- [3..10]]
 
 
-main = autoPPM $ image_008
+main = autoImage $ image_008

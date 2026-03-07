@@ -1,5 +1,5 @@
-import Tegami.Render (autoPPM)
+import Tegami.Render (autoImage)
 import Tegami.Shape (rays)
 import Tegami.Transform (twirl)
 
-main = autoPPM $ rays 6 . twirl
+main = autoImage $ rays 6 . twirl

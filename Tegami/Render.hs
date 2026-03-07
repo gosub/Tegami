@@ -1,42 +1,59 @@
+{-# LANGUAGE GHC2021 #-}
 module Tegami.Render (
-    imageToPPM,
-    writePPM,
-    autoPPM
+    writeImage,
+    autoImage
 ) where
 
 import Tegami.Core
 
 import System.Environment (getArgs, getProgName)
-import qualified Data.ByteString as B
-import qualified Data.ByteString.Char8 as BC
-import Data.Char (chr)
-
-
-imageToPPM :: Raster a => Image a -> Integer -> Integer -> B.ByteString
-imageToPPM image w h =  header `B.append` (B.concat $ do
-    y <- [0..h-1]
-    x <- [0..w-1]
-    let (r, g, b) = toIntRGB $ image (-2.0 + stepX * fromIntegral x, 2.0 - stepY * fromIntegral y)
-    return $ BC.pack [chr r, chr g, chr b])
-    where
-        header = BC.pack $ "P6\n" ++ show w ++ " " ++ show h ++ "\n255\n"
-        stepX = 4.0 / (fromIntegral w) :: Double
-        stepY = 4.0 / (fromIntegral h) :: Double
-
-
-writePPM name image w h = B.writeFile (name ++ ".ppm") $ imageToPPM image w h
+import Codec.Picture
+import Control.Parallel.Strategies (parListChunk, rdeepseq, using)
+import qualified Data.Vector.Storable as VS
+import Data.Word (Word8)
 
 
 safenth :: [a] -> Int -> a -> a
 safenth [] _ x = x
-safenth l 0 x  =  head l 
-safenth l n x  = safenth (tail l) (n - 1) x
+safenth l  0 _ = head l
+safenth l  n x = safenth (tail l) (n - 1) x
 
 
-autoPPM :: Raster a => Image a -> IO ()
-autoPPM image = do
+renderRow :: Raster a => Int -> Image a -> Int -> Int -> Double -> Double -> VS.Vector Word8
+renderRow aa image w y stepX stepY = VS.fromList $ concatMap pixelBytes [0 .. w-1]
+  where
+    worldY = 2.0 - stepY * fromIntegral y
+    pixelBytes x = [r8, g8, b8]
+      where
+        cx  = -2.0 + stepX * fromIntegral x
+        sub = [ fromIntegral i / fromIntegral aa - 0.5 | i <- [0 .. aa-1] ]
+        samples  = [ toIntRGB $ image (cx + dx * stepX / fromIntegral aa,
+                                       worldY + dy * stepY / fromIntegral aa)
+                   | dx <- sub, dy <- sub ]
+        n        = aa * aa
+        avg xs   = sum xs `div` n
+        (rs, gs, bs) = unzip3 samples
+        r8 = fromIntegral (avg rs)
+        g8 = fromIntegral (avg gs)
+        b8 = fromIntegral (avg bs)
+
+
+writeImage :: Raster a => Int -> FilePath -> Image a -> Int -> Int -> IO ()
+writeImage aa path image w h = writePng path juicyImg
+  where
+    stepX    = 4.0 / fromIntegral w
+    stepY    = 4.0 / fromIntegral h
+    rows     = map (renderRow aa image w) [0 .. h-1]
+               `using` parListChunk 8 rdeepseq
+    pixels   = VS.concat rows
+    juicyImg = Image w h pixels :: Image PixelRGB8
+
+
+autoImage :: Raster a => Image a -> IO ()
+autoImage image = do
     args <- getArgs
-    let w = safenth (map read args) 0 1600
-    let h = safenth (map read args) 1 1600
     name <- getProgName
-    writePPM name image w h
+    let w  = safenth (map read args) 0 800
+        h  = safenth (map read args) 1 800
+        aa = safenth (map read args) 2 1
+    writeImage aa (name ++ ".png") image w h

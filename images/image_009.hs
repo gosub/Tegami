@@ -1,8 +1,8 @@
-import Tegami.Render (autoPPM)
+import Tegami.Render (autoImage)
 import Tegami.Shape (checkers, disc)
 import Tegami.Transform (zoom)
 
 
 image_009 = (&&) <$> checkers . zoom 0.25 <*> disc
 
-main = autoPPM $ image_009
+main = autoImage $ image_009

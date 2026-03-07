@@ -1,4 +1,4 @@
-import Tegami.Render (autoPPM)
+import Tegami.Render (autoImage)
 import Tegami.Shape (rings, disc)
 import Tegami.Transform (cw, ccw, wave, twirlBy, rot,
                          zoom, scale, mirror, trans)
@@ -15,4 +15,4 @@ image_023_poster = img . trans ((-0.3), 0.5)
         polardisto = polar2cart . disto . cart2polar
         disto = cw .  wave 12 1 .  (id *** (\x -> x + sin (x/2))) . ccw
 
-main = autoPPM $ image_023_poster
+main = autoImage $ image_023_poster

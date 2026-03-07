@@ -1,4 +1,4 @@
-import Tegami.Render (autoPPM)
+import Tegami.Render (autoImage)
 import Tegami.Shape (poly, disc, cross)
 import Tegami.Transform (iso, trans)
 
@@ -13,4 +13,4 @@ image_016 = stemma . iso 1 0.5
         p4 = disc . trans (0, 2)
         p5 = cross . trans (0, (-2))
 
-main = autoPPM $ image_016
+main = autoImage $ image_016

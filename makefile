@@ -4,20 +4,18 @@ PNGS=$(subst images,pngs,$(SRCS:.hs=.png))
 
 all: $(PNGS)
 
-FULLRESO?=1600
 RESO?=800
+AA?=1
 
 
-pngs/%.png: %.ppm
-	convert $< -resize $(RESO)x$(RESO) $@
-
-%.ppm: images/%.hs
-	ghc -O3 -o bins/$(notdir $(basename $@)) $<
-	./bins/$(notdir $(basename $<)) $(FULLRESO) $(FULLRESO)
+pngs/%.png: images/%.hs
+	ghc -O3 -threaded -o bins/$(notdir $(basename $<)) $<
+	./bins/$(notdir $(basename $<)) $(RESO) $(RESO) $(AA) +RTS -N
+	mv $(notdir $(basename $<)).png $@
 
 clean: clean_artifacts
 	rm bins/*
-	rm pngs/*
+	rm pngs/*.png
 
 clean_artifacts:
 	rm images/*.hi

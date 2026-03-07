@@ -1,4 +1,4 @@
-import Tegami.Render (autoPPM)
+import Tegami.Render (autoImage)
 import Tegami.Shape (disc, disc')
 import Tegami.Core (xor)
 
@@ -9,4 +9,4 @@ image_028 = concRings [0.9, 0.8, 0.7, 0.3, 0.2]
   where concRings sizes = foldl (liftA2 xor) disc $ discs sizes
         discs sizes = map disc' sizes
 
-main = autoPPM $ image_028
+main = autoImage $ image_028
