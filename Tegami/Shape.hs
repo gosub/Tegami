@@ -222,5 +222,6 @@ isoscelesTri bw bh p = sdf <= 0
     s   = -signum bh
     da  = (dot a a, s*(px*bh - py*bw))
     db  = (dot b b, s*(py - bh))
-    (d0, d1) = if fst da < fst db then da else db
+    d0  = min (fst da) (fst db)
+    d1  = min (snd da) (snd db)
     sdf = -(sqrt d0 * signum d1)
