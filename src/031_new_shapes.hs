@@ -15,8 +15,8 @@ image_031 = tile expo . zoom 0.3
         , roundedBox 0.65 0.55 0.18
         , pie 0.85 (pi/3)
         , arc 0.85 0.12 (pi/3)
-        , star 5 0.9 2.5
-        , star 6 0.9 3.0
+        , star 5 0.9 0.4
+        , star 6 0.9 0.4
         , vesica 0.85 0.5
         , moon 0.5 0.85 0.65
         , rhombus 0.55 0.8

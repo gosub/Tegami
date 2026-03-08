@@ -165,24 +165,20 @@ arc ra rb ha p = sdf <= 0
          | otherwise       = abs (dist0 (px,py) - ra)
     sdf = base - rb
 
--- Star polygon with n points, outer radius r.
--- m controls pointiness: m=2 is sharpest, m=n gives a regular n-gon.
+-- Star polygon with n tips, outer (tip) radius r, inner radius q*r.
+-- q≈0.4 gives a classic sharp star; q→1 approaches a regular n-gon.
 star :: Int -> Magnitude -> Magnitude -> BinaryMask
-star n r m p = sdf <= 0
+star n r q p = sdf <= 0
   where
-    an        = pi / fromIntegral n
-    en        = pi / m
-    acx       = cos an;  acy = sin an
-    ecx       = cos en;  ecy = sin en
-    (px, py)  = p
-    bn        = (atan2 px py `mod'` (2*an)) - an
-    len       = dist0 p
-    qx        = len*cos bn - r*acx
-    qy        = len*sin bn - r*acy
-    h         = max 0 (min (r*acy/ecy) (-(dot (qx,qy) (ecx,ecy))))
-    rx        = qx + ecx*h
-    ry        = qy + ecy*h
-    sdf       = dist0 (rx, ry) * signum rx
+    an  = pi / fromIntegral n
+    phi = abs (atan2 (fst p) (snd p) `mod'` (2*an) - an)
+    len = dist0 p
+    sx  = len * sin phi;  sy  = len * cos phi
+    tx  = r * sin an;     ty  = r * cos an
+    ex  = -tx;            ey  = r * q - ty
+    wx  = sx - tx;        wy  = sy - ty
+    t   = max 0 (min 1 ((wx*ex + wy*ey) / (ex*ex + ey*ey)))
+    sdf = dist0 (wx - t*ex, wy - t*ey) * signum (ey*wx - ex*wy)
 
 -- Vesica piscis: intersection of two circles of radius r whose centres
 -- are 2*d apart (on the x-axis).
@@ -199,14 +195,8 @@ vesica r d p = sdf <= 0
 moon :: Magnitude -> Magnitude -> Magnitude -> BinaryMask
 moon d ra rb p = sdf <= 0
   where
-    (px, py0) = p
-    py = abs py0
-    a  = (ra*ra - rb*rb + d*d) / (2*d)
-    b  = sqrt (max 0 (ra*ra - a*a))
-    sdf | d*(px*b - py*a) > d*d * max (b-py) 0
-            = dist0 (px-a, py-b) - ra
-        | otherwise
-            = max (dist0 (px,py) - ra) (-(dist0 (px-d,py) - rb))
+    (px, py) = p
+    sdf = max (dist0 (px,py) - ra) (-(dist0 (px-d,py) - rb))
 
 -- Diamond (rhombus) with half-extents w (x) and h (y).
 rhombus :: Magnitude -> Magnitude -> BinaryMask
